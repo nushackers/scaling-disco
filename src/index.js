@@ -6,7 +6,7 @@ import App from './App';
 import firebase from 'firebase/app';
 
 // Add additional services you want to use
-import "firebase/auth";
+import 'firebase/auth';
 // import "firebase/database";
 // import "firebase/firestore";
 // import "firebase/messaging";
@@ -14,12 +14,12 @@ import "firebase/auth";
 // import "firebase/storage";
 
 const config = {
-  apiKey: "AIzaSyByfXJU9SK5OQAbZfxCw1oUG4M1R1hS4hE",
-  authDomain: "hack-n-roll.firebaseapp.com",
-  databaseURL: "https://hack-n-roll.firebaseio.com",
-  projectId: "hack-n-roll",
-  storageBucket: "",
-  messagingSenderId: "1000953651325"
+  apiKey: 'AIzaSyByfXJU9SK5OQAbZfxCw1oUG4M1R1hS4hE',
+  authDomain: 'hack-n-roll.firebaseapp.com',
+  databaseURL: 'https://hack-n-roll.firebaseio.com',
+  projectId: 'hack-n-roll',
+  storageBucket: '',
+  messagingSenderId: '1000953651325',
 };
 firebase.initializeApp(config);
 

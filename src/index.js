@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 // Firebase App is always required and must be first
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 
 // Add additional services you want to use
 import "firebase/auth";

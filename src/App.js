@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+const YEAR = new Date().getFullYear();
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <nav className="navbar navbar-dark bg-dark">
+          <a className="navbar-brand" href="#">Navbar</a>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item active">
+                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Features</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Pricing</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link disabled" href="#">Disabled</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <main className="container-fluid"></main>
+        <footer>
+          <p>Hack & Roll {YEAR}<span>Built by NUSHackers</span></p>
+        </footer>
       </div>
     );
   }

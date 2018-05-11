@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Route, Link, NavLink } from 'react-router-dom';
+import Home from './Home';
+import Auth from './Auth';
 import './App.css';
 
 const YEAR = new Date().getFullYear();
@@ -6,31 +9,33 @@ const YEAR = new Date().getFullYear();
 class App extends Component {
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-dark bg-dark">
-          <a className="navbar-brand" href="#">Navbar</a>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item active">
-                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Features</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Pricing</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled" href="#">Disabled</a>
-              </li>
-            </ul>
-          </div>
+      <Fragment>
+        <nav className="navbar navbar-light bg-light">
+          <Link to="/">Home</Link>
+          <ul className="nav">
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/">Home</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/login">Log In</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/signup">Sign Up</NavLink>
+            </li>
+          </ul>
         </nav>
-        <main className="container-fluid"></main>
+        <main className="container-fluid">
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Auth} />
+          <Route path="/signup" component={Auth} />
+        </main>
         <footer>
-          <p>Hack & Roll {YEAR}<span>Built by NUSHackers</span></p>
+          <p>
+            Hack & Roll {YEAR}
+            <span>Built by NUSHackers</span>
+          </p>
         </footer>
-      </div>
+      </Fragment>
     );
   }
 }

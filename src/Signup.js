@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import './Auth.css';
 import Form from 'react-jsonschema-form';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -12,27 +11,29 @@ function otherOption(title, options, otherText = 'Other') {
   const allOptions = options.slice();
   allOptions.push(otherText);
 
-  const oneOfDictionary = options.map(opt => { return { properties: { [title]: { enum: [opt] } } } });
+  const oneOfDictionary = options.map((opt) => {
+    return { properties: { [title]: { enum: [opt] } } };
+  });
   oneOfDictionary.push({
     properties: {
       [title]: { enum: [otherText] },
-      [titleOther]: { title: `${titleCapitalized} (${otherText})`, type: 'string' }
+      [titleOther]: { title: `${titleCapitalized} (${otherText})`, type: 'string' },
     },
-    required: [`${titleOther}`]
+    required: [`${titleOther}`],
   });
 
   return {
     title: '',
     type: 'object',
     properties: {
-      [title]: { title: titleCapitalized, type: 'string', enum: allOptions }
+      [title]: { title: titleCapitalized, type: 'string', enum: allOptions },
     },
     dependencies: {
       [title]: {
-        oneOf: oneOfDictionary
-      }
-    }
-  }
+        oneOf: oneOfDictionary,
+      },
+    },
+  };
 }
 
 const schema = {
@@ -49,26 +50,36 @@ const schema = {
     tShirt: { type: 'string', title: 'Preferred T-shirt size', enum: ['XS', 'S', 'M', 'L', 'XL'] },
     emergencyContactName: { type: 'string', title: 'Emergency contact name' },
     emergencyContactNumber: { type: 'number', title: 'Emergency contact number' },
-    emergencyContactRelation: otherOption('emergencyContactRelation', ['Father', 'Mother', 'Sibling']),
-    status: otherOption('status', ['University', 'Junior College', 'Polytechnic', 'Secondary School', 'Primary School']),
+    emergencyContactRelation: otherOption('emergencyContactRelation', [
+      'Father',
+      'Mother',
+      'Sibling',
+    ]),
+    educationLevel: otherOption('educationLevel', [
+      'University',
+      'Junior College',
+      'Polytechnic',
+      'Secondary School',
+      'Primary School',
+    ]),
   },
 };
 
 const uiSchema = {
   nationality: {
-    nationality: { 'ui:widget': 'radio' }
+    nationality: { 'ui:widget': 'radio' },
   },
   foodPreference: {
-    foodPreference: { 'ui:widget': 'radio' }
+    foodPreference: { 'ui:widget': 'radio' },
   },
-  tShirt: { 'ui:widget': 'radio' },
+  tShirt: { 'ui:widget': 'select' },
   emergencyContactRelation: {
-    emergencyContactRelation: { 'ui:widget': 'radio' }
+    emergencyContactRelation: { 'ui:widget': 'radio' },
   },
-  status: {
-    status: { 'ui:widget': 'radio' }
-  }
-}
+  educationLevel: {
+    educationLevel: { 'ui:widget': 'select' },
+  },
+};
 
 const log = (type) => console.log.bind(console, type);
 

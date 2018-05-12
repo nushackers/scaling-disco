@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Link, NavLink } from 'react-router-dom';
 import Home from './Home';
-import Auth from './Auth';
-import SignupContainer from './SignupContainer';
+import Signup from './SignupContainer';
+import Login from './LoginContainer';
+import Admin from './AdminContainer';
 import './App.css';
 
 const YEAR = new Date().getFullYear();
@@ -27,8 +28,9 @@ class App extends Component {
         </nav>
         <main className="container-fluid">
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={Auth} />
-          <Route path="/signup" component={SignupContainer} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/admin" component={Admin} />
         </main>
         <footer>
           <p>

@@ -15,6 +15,9 @@ class LoginContainer extends PureComponent {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log(user);
+      })
       .catch((err) => {
         this.setState({
           error: `Error code ${err.code}: ${err.message}`,
@@ -22,8 +25,10 @@ class LoginContainer extends PureComponent {
       });
   };
 
+  onDismiss = () => this.setState({ error: '' });
+
   render() {
-    return <Login onSubmit={this.onSubmit} error={this.error} />;
+    return <Login onSubmit={this.onSubmit} onDismiss={this.onDismiss} error={this.state.error} />;
   }
 }
 

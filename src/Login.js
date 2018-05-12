@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import Form from 'react-jsonschema-form';
+import ErrorAlert from './ErrorAlert';
 
 const schema = {
   title: 'Login',
@@ -29,10 +30,11 @@ const uiSchema = {
  */
 class Login extends PureComponent {
   render() {
+    const { error, onSubmit, onDismiss } = this.props;
     return (
       <Fragment>
-        {this.props.error && <section>{this.props.error}</section>}
-        <Form schema={schema} uiSchema={uiSchema} onSubmit={this.props.onSubmit} />
+        {error && <ErrorAlert error={error} onDismiss={onDismiss} />}
+        <Form schema={schema} uiSchema={uiSchema} onSubmit={onSubmit} />
       </Fragment>
     );
   }

@@ -1,18 +1,34 @@
 import React, { PureComponent } from 'react';
-import './Auth.css';
 import Form from 'react-jsonschema-form';
 
 const schema = {
-  title: 'Formo',
+  title: 'Login',
   type: 'object',
-  required: ['title'],
+  required: ['email', 'password'],
   properties: {
-    title: { type: 'string', title: 'Title', default: 'A new task' },
-    done: { type: 'boolean', title: 'Done?', default: false },
+    email: {
+      type: 'string',
+      title: 'Email',
+      default: '',
+    },
+    password: {
+      title: 'Password',
+      type: 'string',
+      minLength: 8,
+      default: '',
+    },
   },
 };
 
-const log = (type) => console.log.bind(console, type);
+const uiSchema = {
+  email: {
+    'ui:widget': 'email',
+  },
+  password: {
+    'ui:widget': 'password',
+  },
+  'ui:order': ['email', 'password'],
+};
 
 /**
  * Auth renders the form for communication with AuthContainer
@@ -20,12 +36,10 @@ const log = (type) => console.log.bind(console, type);
 class Auth extends PureComponent {
   render() {
     return (
-      <Form
-        schema={schema}
-        onChange={log('changed')}
-        onSubmit={log('submitted')}
-        onError={log('errors')}
-      />
+      <div className="container">
+        {this.props.error && <section>{this.props.error}</section>}
+        <Form schema={schema} uiSchema={uiSchema} onSubmit={this.props.onSubmit} />
+      </div>
     );
   }
 }

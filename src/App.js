@@ -24,19 +24,7 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      const isAuthenticated = !!user;
-      if (!isAuthenticated) {
-        this.setState({ isAuthenticated: false });
-      } else {
-        db.collection('users')
-          .doc(user.uid)
-          .get()
-          .then((snapshot) => {
-            this.setState({ isAuthenticated: true, user: snapshot.data() });
-          }).catch((error) => {
-            console.log(error);
-          });
-      }
+      this.setState({ user, error: '' });
     });
   }
 
@@ -44,9 +32,6 @@ class App extends Component {
     firebase
       .auth()
       .signOut()
-      .then((result) => {
-        alert("Signed out!");
-      })
       .catch((error) => {
         this.setState({ error: error.message });
       });
@@ -66,7 +51,7 @@ class App extends Component {
             </NavLink>
             {user ? (
               <Fragment>
-                <li className="nav-item">Welcome, {user.fullName}</li>
+                <li className="nav-item">Welcome, {user.displayName}</li>
                 <NavLink className="nav-link" to="/groups">
                   Groups
                 </NavLink>
@@ -107,7 +92,7 @@ class App extends Component {
           <Route path="/groups/new" component={GroupNewContainer} />
           <Route path="/groups/join" component={GroupJoin} />
           <Route path="/groups/see" component={GroupSee} />
-          <Route path="/projects" component={Projects} />
+          <Route path="/projects" component={Projects} exact />
           <Route path="/projects/new" component={NewProject} exact />
         </main>
         <footer>

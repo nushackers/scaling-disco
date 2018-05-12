@@ -48,14 +48,14 @@ const schema = {
     },
     number: { type: 'number', title: 'Contact number' },
     nationality: otherOption('nationality', ['Chinese', 'Indian', 'Malay']),
-    educationLevel: otherOption('educationLevel', [
+    education: otherOption('education', [
       'University',
       'Junior College',
       'Polytechnic',
       'Secondary School',
       'Primary School',
     ]),
-    foodPreference: otherOption('foodPreference', ['Carnivore', 'Vegetarian', 'Vegan']),
+    dietary: otherOption('dietary', ['Carnivore', 'Vegetarian', 'Vegan']),
     tShirt: { type: 'string', title: 'Preferred T-shirt size', enum: ['XS', 'S', 'M', 'L', 'XL'] },
     emergency: {
       title: 'Emergency Contact',
@@ -73,8 +73,8 @@ const uiSchema = {
   nationality: {
     nationality: { 'ui:widget': 'radio' },
   },
-  foodPreference: {
-    foodPreference: { 'ui:widget': 'radio' },
+  dietary: {
+    dietary: { 'ui:widget': 'radio' },
   },
   tShirt: { 'ui:widget': 'select' },
   emergency: {
@@ -82,8 +82,8 @@ const uiSchema = {
       relation: { 'ui:widget': 'radio' },
     },
   },
-  educationLevel: {
-    educationLevel: { 'ui:widget': 'select' },
+  education: {
+    education: { 'ui:widget': 'select' },
   },
 };
 

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Redirect } from 'react-router-dom';
 import Signup from './Signup';
 import firebase, { db } from '../Firebase';
 
@@ -7,31 +8,34 @@ import firebase, { db } from '../Firebase';
  */
 class SignupContainer extends PureComponent {
   state = {
+    isAuthenticated: false,
     error: '',
   };
 
   onSubmit = ({ formData }) => {
-    const { email, password } = formData;
+    const { email, password, ...otherData } = formData;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        db.collection('users')
-          .doc(result.user.uid)
-          .set({
-            fullName: formData.fullName,
-            email: formData.email,
-          }).then((ref) => {
-            alert('User created');
-          }).catch((err) => {
-            this.setState({ error: `Error code ${err.code}: ${err.message}` });
-          });
-      }).catch((err) => {
+        const { user } = result;
+        const profileUpdate = user.updateProfile({ displayName: otherData.fullName });
+        const dbUpdate = db
+          .collection('users')
+          .doc(user.uid)
+          .set(otherData);
+        return Promise.all([profileUpdate, dbUpdate]);
+      })
+      .then(() => {
+        this.setState({ isAuthenticated: true });
+      })
+      .catch((err) => {
         this.setState({ error: `Error code ${err.code}: ${err.message}` });
       });
   };
 
   render() {
+    if (this.state.isAuthenticated) return <Redirect to="/" />;
     return <Signup onSubmit={this.onSubmit} error={this.state.error} />;
   }
 }

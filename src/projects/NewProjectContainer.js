@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import NewProject from './NewProject';
-import firebase from 'firebase/app';
+import { db } from '../Firebase';
 
 /**
  * NewProjectContainer is in charge of handling NewProject logic.
@@ -12,8 +12,14 @@ class NewProjectContainer extends PureComponent {
 
   onSubmit = ({ formData }) => {
     const { title, description } = formData;
-    firebase
-      .firestore()
+    db
+      .collection('projects')
+      .doc('d')
+      .set({
+        title,
+        description,
+        likes: 0,
+      })
       .then((user) => {
         console.log(user);
       })

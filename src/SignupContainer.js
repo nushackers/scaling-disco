@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import Signup from './Signup';
-import firebase from 'firebase/app';
+import firebase from './Firebase';
 import 'firebase/database';
 
 /**

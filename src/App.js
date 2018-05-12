@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Link, NavLink } from 'react-router-dom';
-import firebase from 'firebase/app';
+import { Route, Redirect, NavLink } from 'react-router-dom';
+import firebase from './Firebase';
 import Home from './Home';
 import Signup from './SignupContainer';
 import Login from './LoginContainer';
 import Admin from './AdminContainer';
-import NewProject from './NewProjectContainer';
+import Projects from './projects/ProjectsContainer';
+import NewProject from './projects/NewProjectContainer';
 import ErrorAlert from './ErrorAlert';
 import Group from './Group';
 import GroupNewContainer from './GroupNewContainer';
@@ -51,13 +52,14 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    return (
-      <Fragment>
+    return <Fragment>
         <nav className="navbar navbar-light bg-light">
-          <Link to="/">Home</Link>
+          <NavLink to="/">Home</NavLink>
           <ul className="nav">
-            {user ? (
-              <Fragment>
+            <NavLink className="nav-link" to="/projects">
+              Projects
+            </NavLink>
+            {user ? <Fragment>
                 <li className="nav-item">Welcome, {user.fullName}</li>
                 <NavLink className="nav-link" to="/groups">
                   Groups
@@ -72,9 +74,7 @@ class App extends Component {
                     Log out
                   </button>
                 </li>
-              </Fragment>
-            ) : (
-              <Fragment>
+              </Fragment> : <Fragment>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/login">
                     Log In
@@ -85,13 +85,12 @@ class App extends Component {
                     Sign Up
                   </NavLink>
                 </li>
-              </Fragment>
-            )}
+              </Fragment>}
           </ul>
         </nav>
         <main className="container">
           <ErrorAlert error={this.state.error} onDismiss={this.onDismissAlert} />
-          <Route exact path="/" component={Home} />
+          <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/admin" component={Admin} />
@@ -99,7 +98,9 @@ class App extends Component {
           <Route path="/groups/new" component={GroupNewContainer} />
           <Route path="/groups/join" component={GroupJoin} />
           <Route path="/groups/see" component={GroupSee} />
-          <Route path="/project/new" component={NewProject} />
+          <Route path="/projects/new" component={NewProject} exact />
+          <Redirect from="/projects" to="/projects/1" />
+          <Route path="/projects/:page" component={Projects} />
         </main>
         <footer>
           <p>
@@ -107,8 +108,7 @@ class App extends Component {
             <span>Built by NUSHackers</span>
           </p>
         </footer>
-      </Fragment>
-    );
+      </Fragment>;
   }
 }
 

@@ -3,6 +3,7 @@ import './Auth.css';
 import Form from 'react-jsonschema-form';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 
 function otherOption(title, options, otherText = 'Other') {
   const titleCapitalized = title.charAt(0).toUpperCase() + title.slice(1);
@@ -76,7 +77,18 @@ function submitForm(form) {
   console.log(formData);
 
   firebase.auth().createUserWithEmailAndPassword(formData.email, formData.password).then(
-    _ => { alert('User created'); },
+    result => {
+      firebase.database().ref(`users/${result.user.uid}`).set({
+        fullName: formData.fullName,
+        email: formData.email
+      }, error => {
+        if (error) {
+          alert(error);
+        } else {
+          alert('User created');
+        }
+      });
+    },
     error => { alert(error.message); }
   );
 }

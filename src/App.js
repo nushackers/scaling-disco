@@ -45,15 +45,20 @@ class App extends Component {
     return (
       <Fragment>
         <Nav>
-          <NavLink className="nav-link" to="/projects">
+          <NavLink className="nav-link" to="/">
+            Home
+          </NavLink>
+          <NavLink className="nav-link mr-auto" to="/projects">
             Projects
           </NavLink>
           {user ? (
             <Fragment>
               <li className="nav-item">Welcome, {user.displayName}</li>
-              <NavLink className="nav-link" to="/groups">
-                Groups
-              </NavLink>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/groups">
+                  Groups
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/projects/new">
                   Submit Project

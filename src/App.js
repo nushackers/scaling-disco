@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Redirect, NavLink } from 'react-router-dom';
-import firebase from './Firebase';
+import firebase, { db } from './Firebase';
 import Home from './Home';
 import Signup from './SignupContainer';
 import Login from './LoginContainer';
@@ -24,18 +24,19 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        this.setState({ user: null });
-        return;
+      const isAuthenticated = !!user;
+      if (!isAuthenticated) {
+        this.setState({ isAuthenticated: false });
+      } else {
+        db.collection('users')
+          .doc(user.uid)
+          .get()
+          .then((snapshot) => {
+            this.setState({ isAuthenticated: true, user: snapshot.data() });
+          }).catch((error) => {
+            console.log(error);
+          });
       }
-      firebase
-        .database()
-        .ref(`users/${user.uid}`)
-        .once('value')
-        .then((snapshot) => {
-          const userDetails = snapshot.val();
-          this.setState({ user: userDetails });
-        });
     });
   }
 

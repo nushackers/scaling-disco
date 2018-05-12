@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import Signup from './Signup';
-import firebase from './Firebase';
-import 'firebase/database';
+import firebase, { db } from './Firebase';
 
 /**
  * SignupContainer is in charge of handling auth logic.
@@ -17,24 +16,17 @@ class SignupContainer extends PureComponent {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        firebase
-          .database()
-          .ref(`users/${result.user.uid}`)
-          .set(
-            {
-              fullName: formData.fullName,
-              email: formData.email,
-            },
-            (err) => {
-              if (err) {
-                this.setState({ error: `Error code ${err.code}: ${err.message}` });
-              } else {
-                alert('User created');
-              }
-            },
-          );
-      })
-      .catch((err) => {
+        db.collection('users')
+          .doc(result.user.uid)
+          .set({
+            fullName: formData.fullName,
+            email: formData.email,
+          }).then((ref) => {
+            alert('User created');
+          }).catch((err) => {
+            this.setState({ error: `Error code ${err.code}: ${err.message}` });
+          });
+      }).catch((err) => {
         this.setState({ error: `Error code ${err.code}: ${err.message}` });
       });
   };

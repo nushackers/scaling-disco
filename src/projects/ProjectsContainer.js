@@ -36,13 +36,19 @@ class ProjectsContainer extends PureComponent {
   }
 
   render() {
-    return <Fragment>
+    return (
+      <Fragment>
         <h2>Projects</h2>
-        {this.state.projects.map((proj) => <Project key={proj.title} {...proj} />)}
-        {this.state.hasMoreProjects && <button className="btn btn-primary" onClick={() => this.fetchProjects()}>
+        <div className="row">
+          {this.state.projects.map((proj) => <Project key={proj.title} {...proj} />)}
+        </div>
+        {this.state.hasMoreProjects && (
+          <button className="btn btn-primary" onClick={() => this.fetchProjects()}>
             Load more
-          </button>}
-      </Fragment>;
+          </button>
+        )}
+      </Fragment>
+    );
   }
 }
 

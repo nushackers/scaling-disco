@@ -56,7 +56,7 @@ class App extends Component {
                   Groups
                 </NavLink>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/project/new">
+                  <NavLink className="nav-link" to="/projects/new">
                     Submit Project
                   </NavLink>
                 </li>

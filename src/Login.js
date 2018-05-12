@@ -31,9 +31,9 @@ const uiSchema = {
 };
 
 /**
- * Auth renders the form for communication with AuthContainer
+ * Login renders the form for communication with LoginContainer
  */
-class Auth extends PureComponent {
+class Login extends PureComponent {
   render() {
     return (
       <div className="container">
@@ -44,4 +44,4 @@ class Auth extends PureComponent {
   }
 }
 
-export default Auth;
+export default Login;

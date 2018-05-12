@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import Auth from './Auth';
+import Login from './Login';
 import firebase from 'firebase/app';
 
 /**
- * AuthContainer is in charge of handling auth logic.
+ * LoginContainer is in charge of handling Login logic.
  */
-class AuthContainer extends PureComponent {
+class LoginContainer extends PureComponent {
   state = {
     error: '',
   };
@@ -13,7 +13,7 @@ class AuthContainer extends PureComponent {
   onSubmit = ({ formData }) => {
     const { email, password } = formData;
     firebase
-      .auth()
+      .Login()
       .signInWithEmailAndPassword(email, password)
       .catch((err) => {
         this.setState({
@@ -23,8 +23,8 @@ class AuthContainer extends PureComponent {
   };
 
   render() {
-    return <Auth onSubmit={this.onSubmit} error={this.error} />;
+    return <Login onSubmit={this.onSubmit} error={this.error} />;
   }
 }
 
-export default AuthContainer;
+export default LoginContainer;

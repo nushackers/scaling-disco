@@ -10,8 +10,7 @@ import Projects from './projects/ProjectsContainer';
 import NewProject from './projects/NewProjectContainer';
 import ErrorAlert from './ErrorAlert';
 import Group from './groups/Group';
-import GroupNewContainer from './groups/GroupNewContainer';
-import GroupJoin from './groups/GroupJoin';
+import GroupJoinContainer from './groups/GroupJoinContainer';
 import GroupSee from './groups/GroupSee';
 import './App.css';
 
@@ -25,6 +24,7 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
+      console.log(user.uid);
       this.setState({ user, error: '' });
     });
   }
@@ -87,8 +87,7 @@ class App extends Component {
           <Route path="/signup" component={Signup} />
           <Route path="/admin" component={Admin} />
           <Route path="/groups" component={Group} exact />
-          <Route path="/groups/new" component={GroupNewContainer} />
-          <Route path="/groups/join" component={GroupJoin} />
+          <Route path="/groups/join" component={GroupJoinContainer} />
           <Route path="/groups/see" component={GroupSee} />
           <Route path="/projects" component={Projects} exact />
           <Route path="/projects/new" component={NewProject} exact />

@@ -20,11 +20,21 @@ class SignupContainer extends PureComponent {
       .then((result) => {
         const { user } = result;
         const profileUpdate = user.updateProfile({ displayName: otherData.fullName });
-        const dbUpdate = db
+
+        otherData.group = user.uid;
+
+        const userUpdate = db
           .collection('users')
           .doc(user.uid)
-          .set(otherData);
-        return Promise.all([profileUpdate, dbUpdate]);
+          .set({ email: email, group: user.uid });
+        //.set(otherData);
+
+        const groupUpdate = db
+          .collection('groups')
+          .doc(user.uid)
+          .set({ members: [user.uid] });
+
+        return Promise.all([profileUpdate, userUpdate, groupUpdate]);
       })
       .then(() => {
         this.setState({ isAuthenticated: true });

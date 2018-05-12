@@ -8,11 +8,11 @@ class Group extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div>Hi, you are not in any group.</div>
+        <div>Hi, your group contains:</div>
         <ul>
-          <li>
-            <Link to="/groups/new">Create new group</Link>
-          </li>
+          {[2, 3].map((x) => <li>{x}</li>)}
+        </ul>
+        <ul>
           <li>
             <Link to="/groups/join">Join group</Link>
           </li>

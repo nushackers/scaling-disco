@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import './Auth.css';
 import Form from 'react-jsonschema-form';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 function otherOption(title, options, otherText = 'Other') {
   const titleCapitalized = title.charAt(0).toUpperCase() + title.slice(1);
@@ -35,9 +37,7 @@ function otherOption(title, options, otherText = 'Other') {
 const schema = {
   title: 'Sign Up',
   type: 'object',
-  required: [
-    'fullName'
-  ],
+  required: ['fullName', 'email', 'password'],
   properties: {
     fullName: { type: 'string', title: 'Full name' },
     email: { type: 'string', format: 'email', title: 'Email' },
@@ -71,6 +71,16 @@ const uiSchema = {
 
 const log = (type) => console.log.bind(console, type);
 
+function submitForm(form) {
+  const formData = form.formData;
+  console.log(formData);
+
+  firebase.auth().createUserWithEmailAndPassword(formData.email, formData.password).then(
+    _ => { alert('User created'); },
+    error => { alert(error.message); }
+  );
+}
+
 /**
  * Auth renders the form for communication with AuthContainer
  */
@@ -81,7 +91,7 @@ class Signup extends PureComponent {
         schema={schema}
         uiSchema={uiSchema}
         onChange={log('changed')}
-        onSubmit={log('submitted')}
+        onSubmit={submitForm}
         onError={log('errors')}
       />
     );

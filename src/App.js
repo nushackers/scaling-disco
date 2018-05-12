@@ -44,7 +44,10 @@ class App extends Component {
     firebase
       .auth()
       .signOut()
-      .catch(function(error) {
+      .then((result) => {
+        alert("Signed out!");
+      })
+      .catch((error) => {
         this.setState({ error: error.message });
       });
   };
@@ -53,7 +56,8 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    return <Fragment>
+    return (
+      <Fragment>
         <nav className="navbar navbar-light bg-light">
           <NavLink to="/">Home</NavLink>
           <ul className="nav">
@@ -109,7 +113,8 @@ class App extends Component {
             <span>Built by NUSHackers</span>
           </p>
         </footer>
-      </Fragment>;
+      </Fragment>
+    );
   }
 }
 

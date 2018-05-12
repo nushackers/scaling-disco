@@ -6,7 +6,11 @@ import './Home.css';
  */
 class Home extends PureComponent {
   render() {
-    return <div />;
+    return (
+      <section>
+        <img className="img-fluid" src="/logo.png" alt="logo" />
+      </section>
+    );
   }
 }
 

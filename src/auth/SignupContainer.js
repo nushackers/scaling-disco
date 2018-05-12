@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import Signup from './Signup';
-import firebase, { db } from './Firebase';
+import firebase, { db } from '../Firebase';
 
 /**
  * SignupContainer is in charge of handling auth logic.

@@ -9,9 +9,9 @@ class Group extends PureComponent {
       <Fragment>
         <div>Hi, you are not in any group.</div>
         <ul>
-          <li><a href='new'>Create new group</a></li>
-          <li><a href='join'>Join group</a></li>
-          <li><a href='see'>See groups</a></li>
+          <li><a href='groups/new'>Create new group</a></li>
+          <li><a href='groups/join'>Join group</a></li>
+          <li><a href='groups/see'>See groups</a></li>
         </ul>
       </Fragment>
     );

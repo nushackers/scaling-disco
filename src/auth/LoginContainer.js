@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import Login from './Login';
-import firebase from './Firebase';
+import firebase from '../Firebase';
 
 /**
  * LoginContainer is in charge of handling Login logic.

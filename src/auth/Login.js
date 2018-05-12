@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import Form from 'react-jsonschema-form';
-import ErrorAlert from './ErrorAlert';
+import ErrorAlert from '../ErrorAlert';
 
 const schema = {
   title: 'Login',

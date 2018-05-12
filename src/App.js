@@ -2,16 +2,16 @@ import React, { Component, Fragment } from 'react';
 import { Route, Redirect, NavLink } from 'react-router-dom';
 import firebase, { db } from './Firebase';
 import Home from './Home';
-import Signup from './SignupContainer';
-import Login from './LoginContainer';
+import Signup from './auth/SignupContainer';
+import Login from './auth/LoginContainer';
 import Admin from './AdminContainer';
 import Projects from './projects/ProjectsContainer';
 import NewProject from './projects/NewProjectContainer';
 import ErrorAlert from './ErrorAlert';
-import Group from './Group';
-import GroupNewContainer from './GroupNewContainer';
-import GroupJoin from './GroupJoin';
-import GroupSee from './GroupSee';
+import Group from './groups/Group';
+import GroupNewContainer from './groups/GroupNewContainer';
+import GroupJoin from './groups/GroupJoin';
+import GroupSee from './groups/GroupSee';
 import './App.css';
 
 const YEAR = new Date().getFullYear();
@@ -104,7 +104,6 @@ class App extends Component {
           <Route path="/groups/join" component={GroupJoin} />
           <Route path="/groups/see" component={GroupSee} />
           <Route path="/projects/new" component={NewProject} exact />
-          <Redirect from="/projects" to="/projects/1" />
           <Route path="/projects/:page" component={Projects} />
         </main>
         <footer>

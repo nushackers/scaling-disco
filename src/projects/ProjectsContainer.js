@@ -2,6 +2,12 @@ import React, { PureComponent, Fragment } from 'react';
 import { db } from '../Firebase';
 import Project from './Project';
 
+const LIMIT = 25;
+const projectsRef = db
+  .collection('projects')
+  .orderBy('title')
+  .limit(LIMIT);
+
 /**
  * ProjectsContainer fetches all the projects for the current year
  * and paginates accordingly
@@ -9,63 +15,34 @@ import Project from './Project';
 class ProjectsContainer extends PureComponent {
   state = {
     projects: [],
+    hasMoreProjects: false,
   };
 
   componentDidMount() {
-    db
-      .collection('projects')
-      .orderBy('title')
-      .limit(25)
-      .startAt(this.props.match.params.page)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
-        });
+    this.fetchProjects(true);
+  }
+
+  fetchProjects(init = false) {
+    const projects = [...this.state.projects];
+    const ref = init ? projectsRef : projectsRef.startAfter(projects[projects.length - 1]);
+    ref.get().then((querySnapshot) => {
+      // querySnapshot has no map, so we make do...
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        projects.push(doc.data());
       });
-    this.setState({
-      projects: [],
+      this.setState({ projects, hasMoreProjects: querySnapshot.size === LIMIT });
     });
   }
 
   render() {
-    console.log(this.props);
-    return (
-      <Fragment>
+    return <Fragment>
         <h2>Projects</h2>
-        {this.state.projects.map((project) => <Project {...project} />)}
-        <nav aria-label="Page navigation example">
-          <ul className="pagination justify-content-center">
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </Fragment>
-    );
+        {this.state.projects.map((proj) => <Project key={proj.title} {...proj} />)}
+        {this.state.hasMoreProjects && <button className="btn btn-primary" onClick={() => this.fetchProjects()}>
+            Load more
+          </button>}
+      </Fragment>;
   }
 }
 

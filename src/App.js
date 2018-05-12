@@ -64,7 +64,8 @@ class App extends Component {
             <NavLink className="nav-link" to="/projects">
               Projects
             </NavLink>
-            {user ? <Fragment>
+            {user ? (
+              <Fragment>
                 <li className="nav-item">Welcome, {user.fullName}</li>
                 <NavLink className="nav-link" to="/groups">
                   Groups
@@ -79,7 +80,9 @@ class App extends Component {
                     Log out
                   </button>
                 </li>
-              </Fragment> : <Fragment>
+              </Fragment>
+            ) : (
+              <Fragment>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/login">
                     Log In
@@ -90,7 +93,8 @@ class App extends Component {
                     Sign Up
                   </NavLink>
                 </li>
-              </Fragment>}
+              </Fragment>
+            )}
           </ul>
         </nav>
         <main className="container">
@@ -99,12 +103,12 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/admin" component={Admin} />
-          <Route exact path="/groups" component={Group} />
+          <Route path="/groups" component={Group} exact />
           <Route path="/groups/new" component={GroupNewContainer} />
           <Route path="/groups/join" component={GroupJoin} />
           <Route path="/groups/see" component={GroupSee} />
+          <Route path="/projects" component={Projects} />
           <Route path="/projects/new" component={NewProject} exact />
-          <Route path="/projects/:page" component={Projects} />
         </main>
         <footer>
           <p>

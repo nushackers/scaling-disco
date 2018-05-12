@@ -7,7 +7,7 @@ class Project extends PureComponent {
   render() {
     return (
       <article>
-        {this.props}
+        {JSON.stringify(this.props, null, 2)}
       </article>
     );
   }

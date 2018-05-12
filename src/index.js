@@ -9,7 +9,7 @@ import firebase from 'firebase/app';
 // Add additional services you want to use
 import 'firebase/auth';
 // import "firebase/database";
-// import "firebase/firestore";
+import "firebase/firestore";
 // import "firebase/messaging";
 // import "firebase/functions";
 // import "firebase/storage";

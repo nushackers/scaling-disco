@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Link, NavLink } from 'react-router-dom';
 import firebase from 'firebase/app';
-import 'firebase/database';
 import Home from './Home';
 import Signup from './SignupContainer';
 import Login from './LoginContainer';
 import Admin from './AdminContainer';
+import NewProject from './NewProjectContainer';
 import ErrorAlert from './ErrorAlert';
 import Group from './Group';
 import GroupNewContainer from './GroupNewContainer';
@@ -17,16 +17,24 @@ const YEAR = new Date().getFullYear();
 
 class App extends Component {
   state = {
-    isAuthenticated: false,
+    user: null,
     error: '',
   };
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      firebase.database().ref(`users/${user.uid}`).once('value').then((snapshot) => {
-        const userDetails = snapshot.val();
-        this.setState({ isAuthenticated: !!user, user: userDetails });
-      });
+      if (!user) {
+        this.setState({ user: null });
+        return;
+      }
+      firebase
+        .database()
+        .ref(`users/${user.uid}`)
+        .once('value')
+        .then((snapshot) => {
+          const userDetails = snapshot.val();
+          this.setState({ user: userDetails });
+        });
     });
   }
 
@@ -42,21 +50,27 @@ class App extends Component {
   onDismissAlert = () => this.setState({ error: '' });
 
   render() {
+    const { user } = this.state;
     return (
       <Fragment>
         <nav className="navbar navbar-light bg-light">
           <Link to="/">Home</Link>
           <ul className="nav">
-            {this.state.isAuthenticated ? (
+            {user ? (
               <Fragment>
-                <li className="nav-item">
-                  Welcome, {this.state.user.fullName}
-                </li>
+                <li className="nav-item">Welcome, {user.fullName}</li>
                 <NavLink className="nav-link" to="/groups">
                   Groups
                 </NavLink>
                 <li className="nav-item">
-                  <button className="btn btn-link nav-link" onClick={this.onSignOut}>Log out</button>
+                  <NavLink className="nav-link" to="/project/new">
+                    Submit Project
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-link nav-link" onClick={this.onSignOut}>
+                    Log out
+                  </button>
                 </li>
               </Fragment>
             ) : (
@@ -85,6 +99,7 @@ class App extends Component {
           <Route path="/groups/new" component={GroupNewContainer} />
           <Route path="/groups/join" component={GroupJoin} />
           <Route path="/groups/see" component={GroupSee} />
+          <Route path="/project/new" component={NewProject} />
         </main>
         <footer>
           <p>

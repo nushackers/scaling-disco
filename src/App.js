@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Link, NavLink } from 'react-router-dom';
 import firebase from 'firebase/app';
+import 'firebase/database';
 import Home from './Home';
 import Signup from './SignupContainer';
 import Login from './LoginContainer';
 import Admin from './AdminContainer';
 import ErrorAlert from './ErrorAlert';
+import Group from './Group';
 import './App.css';
 
 const YEAR = new Date().getFullYear();
@@ -18,7 +20,10 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      this.setState({ isAuthenticated: !!user });
+      firebase.database().ref(`users/${user.uid}`).once('value').then((snapshot) => {
+        const userDetails = snapshot.val();
+        this.setState({ isAuthenticated: !!user, user: userDetails });
+      });
     });
   }
 
@@ -40,9 +45,17 @@ class App extends Component {
           <Link to="/">Home</Link>
           <ul className="nav">
             {this.state.isAuthenticated ? (
-              <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={this.onSignOut}>Log out</button>
-              </li>
+              <Fragment>
+                <li className="nav-item">
+                  Welcome, {this.state.user.fullName}
+                </li>
+                <NavLink className="nav-link" to="/groups">
+                  Groups
+                </NavLink>
+                <li className="nav-item">
+                  <button className="btn btn-link nav-link" onClick={this.onSignOut}>Log out</button>
+                </li>
+              </Fragment>
             ) : (
               <Fragment>
                 <li className="nav-item">
@@ -65,6 +78,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/admin" component={Admin} />
+          <Route path="/groups" component={Group} />
         </main>
         <footer>
           <p>

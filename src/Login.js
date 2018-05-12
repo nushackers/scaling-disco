@@ -8,25 +8,19 @@ const schema = {
   properties: {
     email: {
       type: 'string',
+      format: 'email',
       title: 'Email',
-      default: '',
     },
     password: {
       title: 'Password',
       type: 'string',
-      minLength: 8,
-      default: '',
+      format: 'password',
+      minLength: 6,
     },
   },
 };
 
 const uiSchema = {
-  email: {
-    'ui:widget': 'email',
-  },
-  password: {
-    'ui:widget': 'password',
-  },
   'ui:order': ['email', 'password'],
 };
 

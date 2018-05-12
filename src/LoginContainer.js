@@ -13,7 +13,7 @@ class LoginContainer extends PureComponent {
   onSubmit = ({ formData }) => {
     const { email, password } = formData;
     firebase
-      .Login()
+      .auth()
       .signInWithEmailAndPassword(email, password)
       .catch((err) => {
         this.setState({

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Form from 'react-jsonschema-form';
 
 function otherOption(title, options, otherText = 'Other') {
@@ -40,7 +40,12 @@ const schema = {
   properties: {
     fullName: { type: 'string', title: 'Full name' },
     email: { type: 'string', format: 'email', title: 'Email' },
-    password: { type: 'string', format: 'password', title: 'Password' },
+    password: {
+      type: 'string',
+      format: 'password',
+      title: 'Password',
+      minLength: 6,
+    },
     number: { type: 'number', title: 'Contact number' },
     nationality: otherOption('nationality', ['Chinese', 'Indian', 'Malay']),
     educationLevel: otherOption('educationLevel', [
@@ -82,33 +87,17 @@ const uiSchema = {
   },
 };
 
-function submitForm(form) {
-  const formData = form.formData;
-  console.log(formData);
-
-  firebase.auth().createUserWithEmailAndPassword(formData.email, formData.password).then(
-    result => {
-      firebase.database().ref(`users/${result.user.uid}`).set({
-        fullName: formData.fullName,
-        email: formData.email
-      }, error => {
-        if (error) {
-          alert(error);
-        } else {
-          alert('User created');
-        }
-      });
-    },
-    error => { alert(error.message); }
-  );
-}
-
 /**
  * Auth renders the form for communication with AuthContainer
  */
 class Signup extends PureComponent {
   render() {
-    return <Form schema={schema} uiSchema={uiSchema} onSubmit={this.props.onSubmit} />;
+    return (
+      <Fragment>
+        {this.props.error && <section>{this.props.error}</section>}
+        <Form schema={schema} uiSchema={uiSchema} onSubmit={this.props.onSubmit} />
+      </Fragment>
+    );
   }
 }
 

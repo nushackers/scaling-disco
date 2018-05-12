@@ -15,13 +15,31 @@ class SignupContainer extends PureComponent {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        firebase
+          .database()
+          .ref(`users/${result.user.uid}`)
+          .set(
+            {
+              fullName: formData.fullName,
+              email: formData.email,
+            },
+            (err) => {
+              if (err) {
+                this.setState({ error: `Error code ${err.code}: ${err.message}` });
+              } else {
+                alert('User created');
+              }
+            },
+          );
+      })
       .catch((err) => {
         this.setState({ error: `Error code ${err.code}: ${err.message}` });
       });
   };
 
   render() {
-    return <Signup onSubmit={this.onSubmit} error={this.error} />;
+    return <Signup onSubmit={this.onSubmit} error={this.state.error} />;
   }
 }
 

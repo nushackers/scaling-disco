@@ -8,6 +8,9 @@ import Login from './LoginContainer';
 import Admin from './AdminContainer';
 import ErrorAlert from './ErrorAlert';
 import Group from './Group';
+import GroupNewContainer from './GroupNewContainer';
+import GroupJoin from './GroupJoin';
+import GroupSee from './GroupSee';
 import './App.css';
 
 const YEAR = new Date().getFullYear();
@@ -78,7 +81,10 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/admin" component={Admin} />
-          <Route path="/groups" component={Group} />
+          <Route exact path="/groups" component={Group} />
+          <Route path="/groups/new" component={GroupNewContainer} />
+          <Route path="/groups/join" component={GroupJoin} />
+          <Route path="/groups/see" component={GroupSee} />
         </main>
         <footer>
           <p>

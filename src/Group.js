@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 
 /**
  * Groups stuff lol
@@ -6,7 +6,14 @@ import React, { PureComponent } from 'react';
 class Group extends PureComponent {
   render() {
     return (
-      <div>Hi</div>
+      <Fragment>
+        <div>Hi, you are not in any group.</div>
+        <ul>
+          <li><a href='new'>Create new group</a></li>
+          <li><a href='join'>Join group</a></li>
+          <li><a href='see'>See groups</a></li>
+        </ul>
+      </Fragment>
     );
   }
 }

@@ -45,15 +45,24 @@ class App extends Component {
     return (
       <Fragment>
         <Nav>
-          <NavLink className="nav-link" to="/projects">
-            Projects
-          </NavLink>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/">
+              Home
+            </NavLink>
+          </li>
+          <li className="nav-item mr-auto">
+            <NavLink className="nav-link" to="/projects">
+              Projects
+            </NavLink>
+          </li>
           {user ? (
             <Fragment>
               <li className="nav-item">Welcome, {user.displayName}</li>
-              <NavLink className="nav-link" to="/groups">
-                Groups
-              </NavLink>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/groups">
+                  Groups
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/projects/new">
                   Submit Project
@@ -80,7 +89,7 @@ class App extends Component {
             </Fragment>
           )}
         </Nav>
-        <main className="container">
+        <main className="container py-3">
           <ErrorAlert error={this.state.error} onDismiss={this.onDismissAlert} />
           <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} />

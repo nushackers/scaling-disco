@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Form from 'react-jsonschema-form';
 
 const schema = {
@@ -36,10 +36,10 @@ const uiSchema = {
 class Login extends PureComponent {
   render() {
     return (
-      <div className="container">
+      <Fragment>
         {this.props.error && <section>{this.props.error}</section>}
         <Form schema={schema} uiSchema={uiSchema} onSubmit={this.props.onSubmit} />
-      </div>
+      </Fragment>
     );
   }
 }

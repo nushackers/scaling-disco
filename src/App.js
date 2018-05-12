@@ -26,7 +26,7 @@ class App extends Component {
             </li>
           </ul>
         </nav>
-        <main className="container-fluid">
+        <main className="container">
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />

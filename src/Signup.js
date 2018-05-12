@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react';
 import Form from 'react-jsonschema-form';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
 
 function otherOption(title, options, otherText = 'Other') {
   const titleCapitalized = title.charAt(0).toUpperCase() + title.slice(1);
@@ -46,15 +43,6 @@ const schema = {
     password: { type: 'string', format: 'password', title: 'Password' },
     number: { type: 'number', title: 'Contact number' },
     nationality: otherOption('nationality', ['Chinese', 'Indian', 'Malay']),
-    foodPreference: otherOption('foodPreference', ['Carnivore', 'Vegetarian', 'Vegan']),
-    tShirt: { type: 'string', title: 'Preferred T-shirt size', enum: ['XS', 'S', 'M', 'L', 'XL'] },
-    emergencyContactName: { type: 'string', title: 'Emergency contact name' },
-    emergencyContactNumber: { type: 'number', title: 'Emergency contact number' },
-    emergencyContactRelation: otherOption('emergencyContactRelation', [
-      'Father',
-      'Mother',
-      'Sibling',
-    ]),
     educationLevel: otherOption('educationLevel', [
       'University',
       'Junior College',
@@ -62,6 +50,17 @@ const schema = {
       'Secondary School',
       'Primary School',
     ]),
+    foodPreference: otherOption('foodPreference', ['Carnivore', 'Vegetarian', 'Vegan']),
+    tShirt: { type: 'string', title: 'Preferred T-shirt size', enum: ['XS', 'S', 'M', 'L', 'XL'] },
+    emergency: {
+      title: 'Emergency Contact',
+      type: 'object',
+      properties: {
+        name: { type: 'string', title: 'Name' },
+        number: { type: 'number', title: 'Number' },
+        relation: otherOption('relation', ['Father', 'Mother', 'Sibling']),
+      },
+    },
   },
 };
 
@@ -73,15 +72,15 @@ const uiSchema = {
     foodPreference: { 'ui:widget': 'radio' },
   },
   tShirt: { 'ui:widget': 'select' },
-  emergencyContactRelation: {
-    emergencyContactRelation: { 'ui:widget': 'radio' },
+  emergency: {
+    relation: {
+      relation: { 'ui:widget': 'radio' },
+    },
   },
   educationLevel: {
     educationLevel: { 'ui:widget': 'select' },
   },
 };
-
-const log = (type) => console.log.bind(console, type);
 
 function submitForm(form) {
   const formData = form.formData;
@@ -109,15 +108,7 @@ function submitForm(form) {
  */
 class Signup extends PureComponent {
   render() {
-    return (
-      <Form
-        schema={schema}
-        uiSchema={uiSchema}
-        onChange={log('changed')}
-        onSubmit={submitForm}
-        onError={log('errors')}
-      />
-    );
+    return <Form schema={schema} uiSchema={uiSchema} onSubmit={this.props.onSubmit} />;
   }
 }
 
